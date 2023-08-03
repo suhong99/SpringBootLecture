@@ -1,0 +1,29 @@
+package ssg.com.a.controller;
+
+import java.util.Date;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+// import org.springframework.stereotype.Controller;
+
+//@Controller
+@RestController  //Restful -> @Controller + Responsebody
+public class HelloController {
+	// @RequestMapping(value ="/", method=RequestMethod.GET)
+	@GetMapping("/")
+	public String hello() {
+		System.out.println("HelloController hello()" + new Date());
+		
+		return "안녕하세요";
+	}
+	
+	@GetMapping("/test")
+	public int test() {
+		System.out.println("HelloController test()"+ new Date());
+		
+		return 1024;
+	}
+}

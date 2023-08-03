@@ -1,0 +1,15 @@
+package ssg.com.a.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+// import org.springframework.stereotype.Controller;
+
+//@Controller
+@RestController  //Restful -> @Controller + Responsebody
+public class HelloController {
+	public String hello() {
+		System.out.println("HelloController hello()" + new Date());
+		
+		return "안녕하세요";
+	}
+}

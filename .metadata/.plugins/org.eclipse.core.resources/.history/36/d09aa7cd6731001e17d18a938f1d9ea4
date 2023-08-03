@@ -1,0 +1,17 @@
+package ssg.com.a.controller;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import ssg.com.a.dto.HumanDto;
+
+@RestController
+public class HelloController {
+	//upload
+	@PostMapping("fileupload")
+	public String fileupload(HumanDto human,
+							@RequestParam("uploadFile")
+							MultipartFile uploadFile)
+	//download
+}

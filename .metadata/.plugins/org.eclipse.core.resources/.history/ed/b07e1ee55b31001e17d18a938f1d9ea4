@@ -1,0 +1,6 @@
+package ssg.com.a;
+
+// 접속허가 설정
+public class WebConfigurer {
+
+}

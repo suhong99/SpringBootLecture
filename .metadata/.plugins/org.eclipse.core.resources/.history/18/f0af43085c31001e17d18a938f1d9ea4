@@ -1,0 +1,9 @@
+package ssg.com.a;
+
+import org.springframework.context.annotation.Configuration;
+
+// 접속허가 설정
+@Configuration
+public class WebConfigurer {
+
+}
