@@ -1,5 +1,5 @@
 package ssg.com.a.dto;
-
+							
 public class MemberDto {
 
 	private String id;
