@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,9 @@ public class PdsController {
 	
 	@Autowired
 	PdsService service;
+	
+	@Autowired
+	ServletContext servletContext;  // 다운로드 관련
 	
 	@GetMapping("pdslist")
 	public List<PdsDto> pdslist(){
@@ -103,29 +107,28 @@ public class PdsController {
 	}
 			
 	// 다운로드
-	@Autowired
-	ServletContext servletContext;
 	
 	@GetMapping("filedownload")
-	public ResponseEntity<InputStreamResource> filedownload(int seq, String filename, String newfilename, HttpServletRequest request)throws Exception{
+	public ResponseEntity<InputStreamResource> filedownload(int seq, HttpServletRequest request)throws Exception{
 		System.out.println("HelloController filedownload " + new Date());
 		//경로
 		String path  = request.getServletContext().getRealPath("/upload");
 		//String path ="d:\tmp";
 		
+		PdsDto pds = service.getPds(seq);
 		//파일의 타입을 조사
-		MediaType mediaType =MediaTypeUtiles.getMediaTypeForFileName(servletContext, newfilename);
-		System.out.println("newfilename :"+newfilename);
+		MediaType mediaType =MediaTypeUtiles.getMediaTypeForFileName(servletContext, pds.getFilename());
+		System.out.println("newfilename :"+pds.getFilename());
 		System.out.println("mediaType :"+mediaType);
 		
 		// File file = new File(path+"/"+filename); // "/"는 os따라 달라짐
-		 File file = new File(path+File.separator+newfilename);
+		 File file = new File(path+File.separator+pds.getNewfilename());
 		 System.out.println(file);
 		 InputStreamResource is = new InputStreamResource(new FileInputStream(file));
-		
-		 
+		// 한글파일의 경우
+		 String filename=URLEncoder.encode(pds.getFilename(),"utf-8");
 		 //db download count를 증가
-		 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename="+ file.getName()) // 원본 파일명
+		 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename="+ filename) // 원본 파일명
 				 .contentType(mediaType)
 				 .contentLength(file.length()).body(is);
 	}
