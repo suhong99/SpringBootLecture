@@ -66,7 +66,6 @@ public class PdsController {
 		dto.setNewfilename(newfilename);
 		
 		File f = new File(filepath);
-		System.out.println("업로드 과정 2");
 		PdsDto pds = new PdsDto(dto.getId(),
 								dto.getTitle(),
 								dto.getContent(),
@@ -131,6 +130,72 @@ public class PdsController {
 		 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename="+ filename) // 원본 파일명
 				 .contentType(mediaType)
 				 .contentLength(file.length()).body(is);
+	}
+	
+	@PostMapping("fileupdate")
+	public String fileupdate(PdsDto dto,@RequestParam("uploadFile")MultipartFile uploadFile, 
+								HttpServletRequest request)throws Exception {
+		System.out.println("HelloController fileupdate " + new Date());
+		System.out.println(dto.toString());
+		//경로
+		String path  = request.getServletContext().getRealPath("/upload");
+		// String path = "d:\tmp";
+		String filename = uploadFile.getOriginalFilename();
+		// db에 저장을 위해서 dto.setFilename(filename); // 파일명을 변경 data.txt ->323423423.txt 
+		  String newfilename = PdsUtil.getNewfileName(filename);
+		  System.out.println("newfilename:" + newfilename); 
+		  
+	  PdsDto pds = new PdsDto(dto.getSeq(),
+				dto.getTitle(),
+				dto.getContent(),
+				filename,
+				newfilename);  
+		  
+		if(filename!=null && filename!="") {
+			  String filepath = path +"/" + newfilename;
+			  System.out.println(filepath);
+			  
+			  //기존의 파일을 삭제
+			  PdsDto pdsOriginal = service.getPds(dto.getSeq());
+			  File df = new File(path+"/"+ pdsOriginal.getNewfilename());
+			  df.delete();
+			  
+			  
+			  File f = new File(filepath); 
+			  
+			  try {
+					BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(f));
+					os.write(uploadFile.getBytes());
+					System.out.println(pds.toString());
+					os.close();
+					boolean isS = service.updatePds(pds);
+					
+					if(isS) {
+						System.out.println("파일 업데이트 성공!");
+					}else {
+						System.out.println("파일 업데이트 실패");
+						return "file upload fail";
+						
+					} 
+					
+				} catch (Exception e) {
+					return "file upload fail";
+				}
+		}else {
+			boolean isS = service.updateWithoutPds(pds);
+			
+			if(isS) {
+				System.out.println("파일 업데이트 성공!");
+			}else {
+				System.out.println("파일 업데이트 실패");
+				return "file upload fail";
+				
+			} 
+		}
+			
+				 		    		 
+		return "file upload success";
+
 	}
 	
 	

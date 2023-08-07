@@ -23,7 +23,21 @@
 	where seq=#{seq}
 </select>
 
+<update id="updatePds" parameterType="ssg.com.a.dto.PdsDto">
+    update pds
+    set title = #{title},
+        content = #{content},
+        filename = #{filename},
+        newfilename = #{newfilename}
+    where seq = #{seq}
+</update>
 
+<update id="updateWithoutPds" parameterType="ssg.com.a.dto.PdsDto">
+    update pds
+    set title = #{title},
+        content = #{content}
+    where seq = #{seq}
+</update>
 </mapper>
 
 

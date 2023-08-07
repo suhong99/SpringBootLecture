@@ -13,4 +13,8 @@ public interface PdsDao {
 	List<PdsDto> pdslist();
 	int uploadPds(PdsDto dto);
 	PdsDto getPds(int seq);
+	
+	int updatePds(PdsDto dto);
+	int updateWithoutPds(PdsDto dto);
+	
 }

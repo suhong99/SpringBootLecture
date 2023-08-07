@@ -50,6 +50,15 @@ public class PdsDto{
 		this.regdate = regdate;
 	}
 
+	public PdsDto(int seq,  String title, String content, String filename, String newfilename) {
+		super();
+		this.seq = seq;
+		this.title = title;
+		this.content = content;
+		this.filename = filename;
+		this.newfilename = newfilename;
+	}
+
 	public int getSeq() {
 		return seq;
 	}

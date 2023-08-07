@@ -26,4 +26,12 @@ public class PdsService {
 	public PdsDto getPds(int seq) {
 		return dao.getPds(seq);
 	}
+	
+	public boolean updateWithoutPds(PdsDto dto) {
+		return dao.updateWithoutPds(dto)>0;
+	}
+	
+	public boolean updatePds(PdsDto dto) {
+		return dao.updatePds(dto)>0;
+	}
 }
