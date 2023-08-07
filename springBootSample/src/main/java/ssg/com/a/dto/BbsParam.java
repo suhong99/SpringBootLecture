@@ -2,7 +2,7 @@ package ssg.com.a.dto;
 
 import java.io.Serializable;
 
-public class BbsParam implements Serializable{
+public class BbsParam{
 	
 	private String choice;	// 카테고리(제목/내용/작성자)
 	private String search;	// 검색어
