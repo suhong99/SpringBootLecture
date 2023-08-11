@@ -30,15 +30,20 @@ public class BbsController {
 		
 		//글의 총수
 		int count = service.getallbbs(param);
-		int pageBbs = count/10;
-		if((count%10)>0) {
-			pageBbs= pageBbs+1;
-		}
+		// jqeury용 계산해서 넘겼음
+//		int pageBbs = count/10;
+//		if((count%10)>0) {
+//			pageBbs= pageBbs+1;
+//		}
 		// 현재 페이지
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("bbslist", list);
-		map.put("pageBbs", pageBbs);
-		map.put("pageNumber", param.getPageNumber());
+		// jquery용
+//		map.put("pageBbs", pageBbs);
+//		map.put("pageNumber", param.getPageNumber());
+		
+		//react용
+		map.put("cnt", count);
 		return map;
 	}
 	
