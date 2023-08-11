@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.net.URLEncoder;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class HelloController {
 		//경로
 		String path  = request.getServletContext().getRealPath("/upload");
 		//String path ="d:\tmp";
-		
+			
 		//파일의 타입을 조사
 		MediaType mediaType =MediaTypeUtiles.getMediaTypeForFileName(servletContext, filename);
 		System.out.println("filename :"+filename);
@@ -69,9 +70,10 @@ public class HelloController {
 		 File file = new File(path+File.separator+filename);
 		 
 		 InputStreamResource is = new InputStreamResource(new FileInputStream(file));
-		 
+		// 한글파일의 경우
+		 String getfilename=URLEncoder.encode(file.getName(),"utf-8");
 		 //db download count를 증가
-		 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename="+ file.getName()) // 원본 파일명
+		 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename="+ getfilename) // 원본 파일명
 				 .contentType(mediaType)
 				 .contentLength(file.length()).body(is);
 	}
