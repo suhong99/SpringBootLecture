@@ -113,7 +113,7 @@ public class BbsController {
 	
 	@GetMapping("commentList")
 	public List<BbsComment> commentList(int seq){
-		System.out.println("BbsController coomentList " + new Date());
+		System.out.println("BbsController commentList " + new Date());
 		
 		return service.commentList(seq);
 	}
